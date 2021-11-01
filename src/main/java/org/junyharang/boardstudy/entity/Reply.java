@@ -2,20 +2,21 @@ package org.junyharang.boardstudy.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Builder @AllArgsConstructor @NoArgsConstructor @Getter @ToString
-@Entity public class Reply {
+@Builder @AllArgsConstructor
+@NoArgsConstructor @Getter
+// @ToString 주의
+@ToString(exclude = "board")
+@Entity public class Reply extends BaseTimeEntity  {
     
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rno;
     
     private String text;
     private String replyer;
-    
-    // Board와의 연관관계 아직 미설정
+
+    // 연관관계 지정
+    @ManyToOne private Board board;
     
 } // class 끝

@@ -2,13 +2,13 @@ package org.junyharang.boardstudy.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Builder @AllArgsConstructor @NoArgsConstructor @Getter @ToString
-@Entity public class Board {
+@Builder @AllArgsConstructor
+@NoArgsConstructor @Getter
+// @ToString은 항상 exclude (exclude = 제외하다)
+@ToString(exclude = "writer")
+@Entity public class Board extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bno;
@@ -16,6 +16,6 @@ import javax.persistence.Id;
     private String title;
     private String content;
 
-    // 작성자는 아직 처리하지 않음
+    @ManyToOne private Member writer;
 
 } // class 끝
