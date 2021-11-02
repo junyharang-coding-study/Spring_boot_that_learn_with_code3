@@ -7,6 +7,7 @@ import org.junyharang.boardstudy.entity.Reply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,6 +41,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
                     replyrepository.save(reply);
                 });
-
     } // 댓글_등록() 끝
+
+    @Test public void 댓글_조회1() {
+
+        Optional<Reply> result = replyrepository.findById(1L);
+
+        Reply reply = result.get();
+
+        System.out.println(reply);
+        System.out.println(reply.getBoard());
+
+    } // 댓글_조회1() 끝
 } // class 끝

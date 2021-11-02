@@ -16,6 +16,7 @@ import javax.persistence.*;
     private String title;
     private String content;
 
-    @ManyToOne private Member writer;
+    // LAZY 지연 로딩 사용을 위한 지정
+    @ManyToOne(fetch = FetchType.LAZY) private Member writer;
 
 } // class 끝
