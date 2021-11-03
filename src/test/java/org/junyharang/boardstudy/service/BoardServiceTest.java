@@ -58,4 +58,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
     } // 게시글_삭제() 끝
 
+    @Test public void 게시글_수정() {
+        BoardDTO boardDTO = BoardDTO.builder()
+                .bno(2L)
+                .title("제목 변경 테스트 중")
+                .content("내용 변경 테스트 중")
+                .build();
+
+        boardService.modify(boardDTO);
+    } // 게시글_수정() 끝
+
 } // class 끝

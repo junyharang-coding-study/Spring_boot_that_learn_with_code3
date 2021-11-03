@@ -19,4 +19,12 @@ import javax.persistence.*;
     // LAZY 지연 로딩 사용을 위한 지정
     @ManyToOne(fetch = FetchType.LAZY) private Member writer;
 
+    public void changeTitle(String title) {
+        this.title = title;
+    } // changeTitle() 끝
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
+
 } // class 끝

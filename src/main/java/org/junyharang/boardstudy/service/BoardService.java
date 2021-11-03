@@ -53,4 +53,6 @@ public interface BoardService {
 
     } // entitytoDTO() 끝
 
+    void modify(BoardDTO boardDTO);
+
 } // interface 끝

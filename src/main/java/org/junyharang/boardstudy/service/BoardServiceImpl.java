@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service @RequiredArgsConstructor @Log4j2
@@ -64,4 +65,25 @@ public class BoardServiceImpl implements BoardService {
         // 게시글 삭제
         repository.deleteById(bno);
     } // removeWithReplies() 끝
+
+    @Override
+    public void modify(BoardDTO boardDTO) {
+        // getOne은 findById와 다르게 필요한 순간 까지 로딩을 지연 한다.
+        // Board board = repository.getOne(boardDTO.getBno());
+
+        Optional<Board> result = repository.findById(2L);
+
+        if (result.isPresent()) { // result가 null이 아니라면?
+            Board board = result.get();
+
+            board.changeTitle(boardDTO.getTitle());
+            board.changeContent(boardDTO.getContent());
+
+            repository.save(board);
+        }
+
+//        board.changeTitle(boardDTO.getTitle());
+//        board.changeContent(boardDTO.getContent());
+
+    } // modify() 끝
 } // cass 끝
