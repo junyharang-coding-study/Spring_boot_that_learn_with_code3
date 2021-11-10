@@ -95,4 +95,14 @@ class BoardRepositoryTest {
         System.out.println(Arrays.toString(arr));
     } // 게시글_조회2() 끝
 
+    @Test public void testSearch1() {
+        boardRepository.search1();
+    } // testSearch1() 끝
+
+    @Test public void testSearchPage() {
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
+
+        Page<Object[]> result = boardRepository.searchPage("t", "1", pageable);
+    }
+
 } // class 끝
