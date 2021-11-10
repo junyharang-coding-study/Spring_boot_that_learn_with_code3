@@ -1,6 +1,8 @@
 package org.junyharang.boardstudy.repository.search;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
 import lombok.extern.log4j.Log4j2;
 import org.junyharang.boardstudy.entity.Board;
@@ -59,6 +61,45 @@ import java.util.List;
 
         log.info("searchPage()가 동작 중 입니다!");
 
+        QBoard qBoard = QBoard.board;
+        QReply qReply = QReply.reply;
+        QMember qMember = QMember.member;
+
+        JPQLQuery<Board> jpqlQuery = from(qBoard);
+        jpqlQuery.leftJoin(qMember).on(qBoard.writer.eq(qMember));
+        jpqlQuery.leftJoin(qReply).on(qBoard.eq(qBoard));
+
+        //Select b, w, count(r) From Board b LEFT JOIN b.writer w LEFT JOIN Reply r ON r.board = b
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(qBoard, qMember, qReply.count());
+
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        BooleanExpression expression = qBoard.bno.gt(0L);
+
+        booleanBuilder.and(expression);
+
+        if(type != null) { // 게시글 Type이 비어있지 않다면?
+            // Type을 공백 기준으로 나눠서 배열에 각각 저장
+            String[] typeArr = type.split("");
+
+           BooleanBuilder conditionBuilder = new BooleanBuilder();
+
+           for (String t : typeArr) {
+               switch (t) {
+                   case "t":
+                       conditionBuilder.or(qBoard.title.contains(keyword));
+                       break;
+                   case "w":
+                       conditionBuilder.or(qMember.email.contains(keyword));
+                       break;
+                   case "c":
+                       conditionBuilder.or(qBoard.content.contains(keyword));
+                       break;
+               } // switch 끝
+           } // for문 끝
+
+           booleanBuilder.and(conditionBuilder);
+        } // if문 끝
+
         return null;
-    }
+    } // searchPage() 끝
 } // class 끝
