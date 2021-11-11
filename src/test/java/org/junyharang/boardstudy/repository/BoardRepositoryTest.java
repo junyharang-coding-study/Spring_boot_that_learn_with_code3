@@ -100,9 +100,9 @@ class BoardRepositoryTest {
     } // testSearch1() 끝
 
     @Test public void testSearchPage() {
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending().and(Sort.by("title").ascending()));
 
         Page<Object[]> result = boardRepository.searchPage("t", "1", pageable);
-    }
+    } // testSearchPage() 끝
 
 } // class 끝

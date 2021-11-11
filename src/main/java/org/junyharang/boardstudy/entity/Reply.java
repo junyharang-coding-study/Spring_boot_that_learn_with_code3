@@ -17,6 +17,6 @@ import javax.persistence.*;
     private String replyer;
 
     // 연관관계 지정
-    @ManyToOne private Board board;
+    @ManyToOne(fetch = FetchType.LAZY) private Board board;
     
 } // class 끝
